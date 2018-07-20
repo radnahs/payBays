@@ -26,18 +26,15 @@ public class PayBaysProperties {
 	public static String DOMAIN = properties.getProperty("payBays.domain");
 	public static String USERNAME = properties.getProperty("payBays.username");
 	public static String PASSWORD = properties.getProperty("payBays.password");
-	public static String MS_EXCHANGE_URL = properties.getProperty("payBays.ExchangeService.URL");
 
-	public static String PAYBAYS_NUMBER_EMAILS = properties.getProperty("payBays.number.emails");
-
-	public static String PAYBAYS_NUMBER_JIRA = properties.getProperty("payBays.number.jira");
-
-	public static String PAYBAYS_TOI_URL = properties.getProperty("payBays.toi.URL");
-	public static String PAYBAYS_BBC_URL = properties.getProperty("payBays.bbc.URL");
+	public static String TOI_URL = properties.getProperty("toi.URL");
+	public static String BBC_URL = properties.getProperty("bbc.URL");
+	
+	public static String FACEBOOK_URL = properties.getProperty("fb.URL");
+	public static String FACEBOOK_ACCESS_TOKEN = properties.getProperty("fb.access.token");
 
 	public static void main(String[] args) {
 		System.out.println(PayBaysProperties.USERNAME);
 		System.out.println(PayBaysProperties.PASSWORD);
-		System.out.println(PayBaysProperties.MS_EXCHANGE_URL);
 	}
 }

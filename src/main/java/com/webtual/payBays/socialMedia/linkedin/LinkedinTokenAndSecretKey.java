@@ -25,8 +25,8 @@ public class LinkedinTokenAndSecretKey {
 		String linkedinSecret = "envtrN7YbdmTkq30";// Your LinkedIn Secret
 		OAuthConsumer consumer = new DefaultOAuthConsumer(linkedinKey, linkedinSecret);
 
-		OAuthProvider provider = new DefaultOAuthProvider("https://api.linkedin.com/uas/oauth/requestToken",
-				"https://api.linkedin.com/uas/oauth/accessToken", "https://api.linkedin.com/uas/oauth/authorize");
+		OAuthProvider provider = new DefaultOAuthProvider("https://www.linkedin.com/oauth/v2/requestToken",
+				"https://www.linkedin.com/uas/oauth/v2/accessToken", "https://www.linkedin.com/oauth/v2/authorization");
 
 		System.out.println("Fetching request token from LinkedIn...");
 		String authUrl;

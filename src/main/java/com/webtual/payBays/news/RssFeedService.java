@@ -13,7 +13,7 @@
 
 package com.webtual.payBays.news;
 
-import static com.webtual.payBays.misc.PayBaysProperties.PAYBAYS_BBC_URL;
+import static com.webtual.payBays.misc.PayBaysProperties.BBC_URL;
 
 import java.io.IOException;
 import java.net.URL;
@@ -81,9 +81,9 @@ public class RssFeedService {
 	public static void main(String[] args) throws Exception { 
 		RssFeedService rssFeedNews = new RssFeedService();
 		
-		rssFeedNews.display(rssFeedNews.readFeed(PAYBAYS_BBC_URL));
+		rssFeedNews.display(rssFeedNews.readFeed(BBC_URL));
 		//rssFeedNews.display(rssFeedNews.readFeed(PAYBAYS_TOI_URL));
-		rssFeedNews.display(rssFeedNews.topFeed(PAYBAYS_BBC_URL,5));
+		rssFeedNews.display(rssFeedNews.topFeed(BBC_URL,5));
 	}
 
 }

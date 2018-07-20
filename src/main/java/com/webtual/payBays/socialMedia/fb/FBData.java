@@ -27,6 +27,9 @@ public class FBData {
 
 	@Column(name ="user_feed")
 	private String userFeed;
+	
+	@Column(name ="user_feed_comments")
+	private String userFeedComments;
 
 	public String getUserId() {
 		return userId;
@@ -44,4 +47,14 @@ public class FBData {
 		this.userFeed = userFeed;
 	}
 
+	public String getUserFeedComments() {
+		return userFeedComments;
+	}
+
+	public void setUserFeedComments(String userFeedComments) {
+		this.userFeedComments = userFeedComments;
+	}
+	
+	
+	
 }

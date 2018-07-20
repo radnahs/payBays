@@ -13,6 +13,11 @@
 
 package com.webtual.payBays.socialMedia.fb;
 
+import static com.webtual.payBays.misc.PayBaysProperties.*;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import com.restfb.Connection;
 import com.restfb.DefaultFacebookClient;
 import com.restfb.FacebookClient;
@@ -24,56 +29,42 @@ import com.restfb.types.User;
 
 public class FBService {
 
+	private String accessToken = FACEBOOK_ACCESS_TOKEN;
+	//private String accessToken = "EAACEdEose0cBAFLZBZAZCkITgQgac4i2nPqdaoZBm6rK0VFDs6loLVA6A2f6jscnm1QkYZAV063GNmWPljbOAeepqAZCZAYD6zDGe9EthAVgEiCCp2DfUbHGg1zpv6YiCrXBRYMqbTlZCEJGhJnZBZBDyyBGJyVTPeksK7bMeqaRrhTY0q4WYZAbYffFJn3o8hDLnsUpMbYf4mwHQZDZD";
+	private final FacebookClient facebookClient;
 	
-	public FBData getFBData(){
-		FBData fbData = new FBData();
-		return fbData;
+	public FBService() {
+		facebookClient = new DefaultFacebookClient(accessToken);
 	}
+	
+	public List<FBData> getFBFeed(){
+	    Connection<Post> myFeed = facebookClient.fetchConnection("me/feed", Post.class);
+	    Page page = facebookClient.fetchObject("cocacola", Page.class);
 
-	public static void main(String[] args) {
-		String accessToken="EAACEdEose0cBAGwoTrQM6LbdnsjRqngHErGZB8wNhOUZCGEpZBgV6Xsar5TmRGtrPrtsnYNTpDZBNVuGkE6E42KKZChfC2khZBCcpvhClh4LU0kv0beAqwoyUDtPAcruFlZBsdZBkV24Wn03teUSX5bOUMAmZCjd4eNbaj7PmEl7JZC6AxrMot7ujHTYIZCKNYdtURiwDobf8QtpQZDZD";
-		FacebookClient fbClient = new DefaultFacebookClient(accessToken);
-		//User userFB = fbClient.fetchObject("me/feed", User.class);
-		User userFB = fbClient.fetchObject("me", User.class);
-		System.out.println(userFB.getName());
-		System.out.println(userFB.getBio());
-		System.out.println(userFB.getWork());
-		//FacebookType publishMessageResponse = fbClient.publish("me/feed", FacebookType.class, Parameter.with("message", "Friends please ignore these posts .... I'm testing my API ...."));
-		//System.out.println(publishMessageResponse.getId());
-		
-		Connection<User> myFriends = fbClient.fetchConnection("me/friends", User.class);
-	    Connection<Post> myFeed = fbClient.fetchConnection("me/feed", Post.class);
-
-	    System.out.println("Count of my friends: " + myFriends.getData().size());
-
+	    List<FBData> fbDataList = new ArrayList<>(); 
 	    for (int i = 0; i < 5; i++) {
-	    	if (!myFeed.getData().isEmpty())
-		    	System.out.println(i + " item in my feed: " + myFeed.getData().get(i).getMessage());
+	    	if (!myFeed.getData().isEmpty()){
+	    		FBData fbData = new FBData();
+	    		//System.out.println(i + " item in my feed: " + myFeed.getData().get(i).getMessage());
+		    	fbData.setUserFeed(myFeed.getData().get(i).getMessage());
+		    	//fbData.setUserFeedComments(myFeed.getData().get(i).getComments());
+		    	fbDataList.add(fbData);
+	    	}
 		}
-	    
+	    return fbDataList;
 	}
 	
-	//reading posts
-	public static void main2(String[] args) {
-		String accessToken="EAACEdEose0cBACtFj4yee4Pj9PRvAvTY9OJSueLqMZAp4wCZBPnlZA4ZALqXgg9HdIlKxMU4D5c1cFlbPiet7KQ3CcKbCWiQtUHd3ZCFfUUk6bc9hFnrhGlcAnQjQ1gkDvsZA2CYY86ZBkiL6nfCchhpz2wZBVamfMZCbIMR6rP1bQ9q85H8cqcbX2YtUJ1Ivj0QWzDWSZBJ6snwZDZD";
-		FacebookClient fbClient = new DefaultFacebookClient(accessToken);
-		/*User userFB = fbClient.fetchObject("me", User.class);
-		System.out.println(userFB.getName());*/
-	    User user = fbClient.fetchObject("me", User.class);
-	    Page page = fbClient.fetchObject("cocacola", Page.class);
-
-	    Connection<Post> myFeed = fbClient.fetchConnection("me/feed", Post.class);
-
-
-	    System.out.println("User name: " + user.getName());
-	    System.out.println("Page likes: " + page.getLikes());
-
-		
+	public void postFeedToFB(String feedToPost){
+		FacebookType publishMessageResponse = facebookClient.publish("me/feed", FacebookType.class, Parameter.with("message", feedToPost));
 	}
 	
-	void fetchObject() {
-	    System.out.println("* Fetching single objects *");
-
-	  }
+	public static void main(String[] args) {
+		FBService fbService = new FBService();
+		List<FBData> fbDataList = fbService.getFBFeed();
+		for (FBData fbData : fbDataList) {
+			System.out.println(fbData.getUserFeed());
+			//System.out.println(fbData.getUserFeedComments());
+		}
+	}
 
 }

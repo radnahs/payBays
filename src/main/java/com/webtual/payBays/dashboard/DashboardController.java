@@ -34,6 +34,8 @@ import org.springframework.web.servlet.ModelAndView;
 import com.webtual.payBays.misc.PayBaysProperties;
 import com.webtual.payBays.news.RSSFeedData;
 import com.webtual.payBays.news.RssFeedService;
+import com.webtual.payBays.socialMedia.fb.FBData;
+import com.webtual.payBays.socialMedia.fb.FBService;
 import com.webtual.payBays.user.UserData;
 
 
@@ -52,10 +54,13 @@ public class DashboardController {
 			modelAndView.addObject("messageData", user);
 			
 			RssFeedService toiFeedService =new RssFeedService();
-			modelAndView.addObject("toiDataList", toiFeedService.topFeed(PAYBAYS_TOI_URL,5));
+			modelAndView.addObject("toiDataList", toiFeedService.topFeed(TOI_URL,5));
 			
 			RssFeedService bbcFeedService =new RssFeedService();
-			modelAndView.addObject("bbcDataList", bbcFeedService.topFeed(PAYBAYS_BBC_URL,5));
+			modelAndView.addObject("bbcDataList", bbcFeedService.topFeed(BBC_URL,5));
+			
+			FBService fbService = new FBService();
+			modelAndView.addObject("fbDataList", fbService.getFBFeed());
 			
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -65,10 +70,10 @@ public class DashboardController {
 	
 	@RequestMapping( value="FacebookFeed")
 	public @ResponseBody String showFacebookFeed(@RequestParam(value = "userId") String userId, HttpServletRequest request,HttpSession session) {
-		//FBService fbService = new FBService();
-		//FBData fbData = fbService.getFBData();
+		FBService fbService = new FBService();
+		List<FBData> fbDataList = fbService.getFBFeed();
 		//return fbData.getUserFeed();
-		return "shandar as the fb post";
+		return "test";
     }
 
 	
@@ -85,7 +90,7 @@ public class DashboardController {
 		System.out.println("Shandar titleString ="+titleString);
 		String retStr="";
 		RssFeedService rssFeedService =new RssFeedService();
-		List<RSSFeedData> rssFeedDataList =rssFeedService.topFeed(PAYBAYS_TOI_URL,5);
+		List<RSSFeedData> rssFeedDataList =rssFeedService.topFeed(TOI_URL,5);
 		for (RSSFeedData rssFeedData : rssFeedDataList) {
 			if(rssFeedData.getTitle().equalsIgnoreCase(titleString)){
 				retStr=rssFeedData.getNewsDescription();
@@ -100,7 +105,7 @@ public class DashboardController {
 	public @ResponseBody String showBBCFeed(@RequestParam(value = "titleAsId") String titleString, HttpServletRequest request,HttpSession session) {
 		String retStr="";
 		RssFeedService rssFeedService =new RssFeedService();
-		List<RSSFeedData> rssFeedDataList =rssFeedService.topFeed(PAYBAYS_BBC_URL,5);
+		List<RSSFeedData> rssFeedDataList =rssFeedService.topFeed(BBC_URL,5);
 		for (RSSFeedData rssFeedData : rssFeedDataList) {
 			if(rssFeedData.getTitle().equalsIgnoreCase(titleString)){
 				retStr=rssFeedData.getNewsDescription();
@@ -111,4 +116,18 @@ public class DashboardController {
 		return retStr;
     }
 	
+	@RequestMapping( value="AmazonFeed")
+	public @ResponseBody String showAmazonFeed(@RequestParam(value = "consumerId") String titleString, HttpServletRequest request,HttpSession session) {
+		String retStr="";
+		RssFeedService rssFeedService =new RssFeedService();
+		List<RSSFeedData> rssFeedDataList =rssFeedService.topFeed(BBC_URL,5);
+		for (RSSFeedData rssFeedData : rssFeedDataList) {
+			if(rssFeedData.getTitle().equalsIgnoreCase(titleString)){
+				retStr=rssFeedData.getNewsDescription();
+				break;
+			}
+		}
+		System.out.println("Shandar retStr ="+retStr);
+		return retStr;
+    }
 }
